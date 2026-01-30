@@ -1,91 +1,208 @@
-# Auto-CRM: End-to-End AI & Microservice Ecosystem
+# 🤖 Robot Telemetry & Web-Based Monitoring Dashboard
 
-Auto-CRM; is an **“Event-Driven” architecture** that, in the high-performance ingestion layer built with **Go** and **Apache Kafka**, handles **thousands of requests within seconds** and optimizes inter-service communication with the **gRPC protocol**.
+## Overview
 
-While the **business logic** is managed by **Spring Boot (Java)** or **.NET microservices**; in the **data layer**, **PostgreSQL** is used for relational data, **Redis** for caching, and **Elasticsearch** is used in a hybrid manner for logs and text searches.
+This project is a **fullstack web application** designed to simulate, collect, process, and visualize telemetry data coming from robotic systems. The system follows **industrial software practices** and demonstrates end-to-end development using Python-based backend services and a web-based user interface.
 
-The **brain of the system**, the **Python-based CrewAI and LangChain agents**, make **hallucination-free, autonomous decisions** by being fed from the corporate memory thanks to the **RAG architecture** supported by **LlamaIndex** and **Vector Databases (Qdrant)**.
+The application focuses on:
 
-Behind the interface presented with **PHP** or modern **JS frameworks**; this structure, **containerized with Docker and Kubernetes** and brought up on **AWS** with **Terraform (IaC)**, provides **central identity management** with **Keycloak**, **secret security** with **HashiCorp Vault**, **distributed tracing** with **OpenTelemetry** and **Jaeger**, and **visualization** with **Grafana**.
+* Real-time telemetry visualization
+* Backend service development
+* REST API design
+* Database persistence
+* Cloud deployment
 
-All these processes are developed according to **“Enterprise” quality standards (DevSecOps)** by being subjected to **load tests with k6** and **static code analysis with SonarQube** before going live.
-
-
-## 🏗️ Architecture & Tech Stack
-
-This project is a hybrid architecture combining modern **Enterprise** and **AI-Native** technologies:
-
-| Layer | Technology | Purpose |
-| :--- | :--- | :--- |
-| **Ingestion Layer** | **Go (Golang)** | Handles high-throughput external requests. |
-| **Message Broker** | **Apache Kafka** | Asynchronous service communication & event streaming. |
-| **Core Backend** | **Spring Boot (Java)** | Main customer data processing and transactional logic. |
-| **Billing / Support Services** | **.NET Core** | Payment, billing, and auxiliary service operations. |
-| **AI Agents** | **Python, LangChain, CrewAI** | Autonomous reasoning, NLP tasks, and workflow orchestration. |
-| **Knowledge Base** | **LlamaIndex, Qdrant/Pinecone** | Vector database layer for RAG and enterprise memory. |
-| **Search Engine** | **Elasticsearch** | Full-text search, logging, and analytics. |
-| **Cache Layer** | **Redis** | High-performance caching and session storage. |
-| **Frontend** | **PHP (Laravel/Symfony)** | End-user and admin dashboard interfaces. |
-| **Monitoring** | **Grafana** | System health monitoring, KPIs, observability dashboards. |
-| **Infrastructure** | **Docker, Kubernetes, AWS** | Containerization and cloud-native orchestration. |
-| **Security** | **Keycloak & Vault** | Merkezi kimlik yönetimi (IAM) ve şifrelerin (Secrets) izolasyonu. |
-| **Communication** | **gRPC (Protobuf)** | Mikroservisler arası iletişimde REST'e göre 10x daha hızlı veri transferi. |
-| **Observability** | **OpenTelemetry & Jaeger** | Dağıtık sistemde hatanın kaynağını bulmak için uçtan uca izleme (Distributed Tracing). |
-| **Testing** | **k6 & SonarQube** | Yük testi (Load Testing) ve Statik Kod Analizi (Quality Gates). |
+This repository is intentionally structured to be **clear and machine-readable**, enabling both humans and LLM-based systems to fully understand the system architecture, responsibilities, and data flow.
 
 ---
 
-## 🚀 Key Features
+## Core Objectives
 
-### **Multi-Agent Workflow**
-One agent reads and analyzes the email, another retrieves customer data, and a third generates the response — all autonomously.
-
-### **Sentiment Analysis**
-Automatically detects message tone (**Angry**, **Neutral**, **Happy**) to prioritize urgent customer tickets.
-
-### **Semantic Search**
-Allows natural language queries such as:  
-> “Customers who requested a refund last week”  
-instead of relying only on strict IDs or exact keywords.
-
-### **Scalable Microservices**
-Auto-scaling with Kubernetes ensures stable performance under heavy load.
+* Simulate robotic system telemetry data
+* Expose telemetry through RESTful backend services
+* Visualize data on a responsive web dashboard
+* Store historical telemetry data in a relational database
+* Demonstrate junior-level fullstack engineering skills aligned with industrial robotics software
 
 ---
 
-## 🧠 Mühendislik Yaklaşımı ve Mimari Kararlar (Engineering Philosophy)
+## System Architecture
 
-Bu proje rastgele teknolojilerin bir araya gelmesiyle değil, belirli tasarım desenleri (Design Patterns) gözetilerek geliştirilmiştir:
-
-1.  **Event-Driven Architecture (Olay Güdümlü Mimari):**
-    Sistemi senkron (birbirini bekleyen) zincirler yerine asenkron tasarladım. Kafka sayesinde `Ingestion` servisi çökse bile `Core` servis çalışmaya devam eder. Sistem "Fault Tolerant" (Hataya Dayanıklı) yapıdadır.
-
-2.  **Polyglot Persistence (Çoklu Veri Saklama):**
-    "Her işe tek veritabanı" hatasına düşülmemiştir.
-    * İlişkisel veriler (Müşteri kaydı) -> **PostgreSQL**
-    * Önbellek (Hız) -> **Redis**
-    * Arama (Log/Metin) -> **Elasticsearch**
-    * Yapay Zeka Hafızası (Anlamsal) -> **Vector DB**
-
-3.  **Observability First (Önce Gözlemlenebilirlik):**
-    Mikroservis dünyasında "Kör uçuşu" yapmamak için **OpenTelemetry** ve **Jaeger** entegre edilmiştir. Bir isteğin hangi serviste kaç milisaniye harcadığı `TraceID` üzerinden takip edilebilir.
-
-4.  **AI Reliability (Yapay Zeka Güvenilirliği):**
-    AI sadece bir chatbot değil, bir "Karar Destek Sistemi"dir. Modelin halüsinasyon görmesini engellemek için **RAG (Retrieval Augmented Generation)** mimarisi kullanılmış, cevapların şirket dokümanlarına dayanması garanti edilmiştir.
-
----
-
-## 🛠️ Local Development Setup
-
-You can set up the system using **Docker Compose** or **Minikube**.
-
-```bash
-# Clone the project
-git clone https://github.com/username/auto-crm.git
-
-# Start infrastructure services (Kafka, Redis, Elastic, VectorDB)
-docker-compose up -d infra
-
-# Deploy microservices via Kubernetes
-kubectl apply -f k8s/deployments/
 ```
+[ Robot Telemetry Simulator ]
+            |
+            v
+[ Flask Backend REST API ]
+            |
+            v
+[ PostgreSQL Database ]
+            |
+            v
+[ Web Dashboard (HTML / CSS / Bootstrap / JS) ]
+```
+
+---
+
+## Telemetry Data Model
+
+The system simulates robotic telemetry data with the following attributes:
+
+* `temperature` (float, °C)
+* `battery` (integer, percentage)
+* `motor_rpm` (integer)
+* `status` (string: idle | working | error)
+* `timestamp` (ISO 8601 format)
+
+Example telemetry payload:
+
+```json
+{
+  "temperature": 42.1,
+  "battery": 79,
+  "motor_rpm": 1440,
+  "status": "working",
+  "timestamp": "2026-01-30T13:10:00"
+}
+```
+
+---
+
+## Backend
+
+### Technology
+
+* Python
+* Flask
+* REST API architecture
+* PostgreSQL
+
+### Responsibilities
+
+* Generate simulated robotic telemetry data at configurable intervals
+* Validate and process telemetry data
+* Persist telemetry records into the database
+* Serve telemetry data via REST endpoints
+* Handle basic robot control commands (simulated)
+
+### API Endpoints
+
+```http
+GET  /api/telemetry/latest    # Fetch latest telemetry data
+GET  /api/telemetry/history   # Fetch historical telemetry data
+POST /api/robot/command       # Send simulated robot commands
+```
+
+---
+
+## Frontend
+
+### Technology
+
+* HTML
+* CSS
+* Bootstrap
+* JavaScript
+* Chart.js
+
+### Features
+
+* Responsive dashboard layout
+* Live telemetry visualization
+* Battery and temperature indicators
+* Time-series charts for sensor data
+* Robot operational status display
+
+The frontend consumes backend REST APIs and updates the UI dynamically without page reloads.
+
+---
+
+## Database
+
+### Technology
+
+* PostgreSQL
+
+### Schema
+
+```sql
+telemetry
+---------
+id (PK)
+temperature
+battery
+motor_rpm
+status
+timestamp
+```
+
+---
+
+## Project Structure
+
+```
+robot-telemetry-dashboard/
+├── backend/
+│   ├── app.py
+│   ├── routes/
+│   ├── services/
+│   ├── models/
+│   └── simulator/
+├── frontend/
+│   ├── templates/
+│   ├── static/
+│   │   ├── css/
+│   │   └── js/
+├── database/
+│   └── schema.sql
+├── README.md
+└── requirements.txt
+```
+
+---
+
+## Deployment
+
+* Application is designed to be deployed as a **single fullstack service**
+* Backend and frontend are served from the same Flask application
+* PostgreSQL is hosted using a managed cloud database
+* Environment-based configuration is used for credentials
+
+---
+
+## Non-Functional Characteristics
+
+* Modular and maintainable codebase
+* Clear separation of concerns
+* Input validation on all API endpoints
+* Logging enabled for backend services
+* Designed for extensibility and future enhancements
+
+---
+
+## Alignment With Job Requirements
+
+This project intentionally includes the following competencies:
+
+* Python backend development
+* Flask-based REST APIs
+* HTML / CSS / Bootstrap UI development
+* JavaScript-based data visualization
+* SQL database usage
+* Git-based version control
+* Robotics-oriented telemetry processing
+
+---
+
+
+## Future Extensions (Optional)
+
+* WebSocket-based real-time updates
+* Multi-robot telemetry support
+* Authentication and authorization
+* Alerting and threshold-based notifications
+
+---
+
+## Summary
+
+This repository represents a **complete junior-level fullstack robotics monitoring system**, demonstrating real-world software development practices from backend services to frontend visualization and deployment.
