@@ -68,6 +68,16 @@ def create_app(config_class=None):
             'websocket_clients': get_connected_clients_count()
         }), 200
 
+    # Start background telemetry generator in production
+    interval = app.config.get('TELEMETRY_INTERVAL', 2)
+    generator_thread = threading.Thread(
+        target=telemetry_generator,
+        args=(app, interval),
+        daemon=True
+    )
+    generator_thread.start()
+    logger.info(f'Background telemetry generator started with {interval}s interval')
+
     return app
 
 
