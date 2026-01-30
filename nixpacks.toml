@@ -7,7 +7,7 @@ nixPkgs = ["python311"]
 cmds = ["pip install -r requirements.txt"]
 
 [start]
-cmd = "gunicorn --worker-class geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 -b 0.0.0.0:$PORT backend.app:create_app()"
+cmd = "gunicorn -k gevent -w 1 -b 0.0.0.0:$PORT 'backend.app:create_app()'"
 
 [variables]
 FLASK_ENV = "production"
