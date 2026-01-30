@@ -2,7 +2,14 @@
 nixPkgs = ["python311Full"]
 
 [phases.install]
-cmds = ["python -m ensurepip --upgrade", "python -m pip install -r requirements.txt"]
+cmds = [
+    "python -m venv /opt/venv",
+    ". /opt/venv/bin/activate && pip install --upgrade pip",
+    ". /opt/venv/bin/activate && pip install -r requirements.txt"
+]
+
+[phases.build]
+cmds = []
 
 [start]
-cmd = "python -m gunicorn -k gevent -w 1 -b 0.0.0.0:$PORT 'backend.app:create_app()'"
+cmd = ". /opt/venv/bin/activate && python -m gunicorn -k gevent -w 1 -b 0.0.0.0:$PORT 'backend.app:create_app()'"

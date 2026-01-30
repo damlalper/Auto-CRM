@@ -4,7 +4,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "python -m gunicorn -k gevent -w 1 -b 0.0.0.0:$PORT 'backend.app:create_app()'",
+    "startCommand": ". /opt/venv/bin/activate && python -m gunicorn -k gevent -w 1 -b 0.0.0.0:$PORT 'backend.app:create_app()'",
     "healthcheckPath": "/health",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
